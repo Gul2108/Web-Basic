@@ -1,11 +1,305 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coffee Invite</title>
+  <style>
+    :root {
+      --bg-top: #fff0f6;
+      --bg-bottom: #ffd6e7;
+      --card: rgba(255, 255, 255, 0.78);
+      --text: #702048;
+      --accent: #ff4f88;
+      --accent-dark: #ff2d70;
+      --yes: #30b566;
+      --no: #ff5f6d;
+      --shadow: 0 24px 60px rgba(181, 45, 96, 0.22);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.9), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(255, 105, 156, 0.28), transparent 30%),
+        linear-gradient(160deg, var(--bg-top), var(--bg-bottom));
+    }
+
+    .hearts {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .heart {
+      position: absolute;
+      bottom: -40px;
+      color: rgba(255, 79, 136, 0.35);
+      font-size: 20px;
+      animation: floatUp linear infinite;
+    }
+
+    @keyframes floatUp {
+      from {
+        transform: translateY(0) scale(0.8);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      to {
+        transform: translateY(-120vh) scale(1.3);
+        opacity: 0;
+      }
+    }
+
+    .card {
+      position: relative;
+      z-index: 2;
+      width: min(92vw, 720px);
+      padding: 32px 28px 120px;
+      text-align: center;
+      border-radius: 28px;
+      background: var(--card);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      animation: rise 0.8s ease;
+    }
+
+    @keyframes rise {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: rgba(255, 79, 136, 0.12);
+      color: var(--accent-dark);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    h1 {
+      margin: 18px 0 12px;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1.1;
+    }
+
+    p {
+      margin: 0 auto 24px;
+      max-width: 520px;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .gif-wrap {
+      width: min(100%, 320px);
+      margin: 0 auto 28px;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(255, 79, 136, 0.2);
+      border: 4px solid rgba(255, 255, 255, 0.7);
+    }
+
+    .gif-wrap img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .buttons {
+      position: relative;
+      height: 170px;
+    }
+
+    .btn {
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: 700;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      position: absolute;
+      color: white;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn:hover {
+      transform: translateY(-4px) scale(1.03);
+    }
+
+    #yes {
+      background: linear-gradient(135deg, #42cf7a, #1ea85a);
+      left: 30%;
+      top: 30px;
+    }
+
+    #no {
+      background: linear-gradient(135deg, #ff7a88, #ff4d6d);
+      left: 55%;
+      top: 30px;
+    }
+
+    .hint {
+      margin-top: 14px;
+      font-size: 14px;
+      opacity: 0.75;
+    }
+
+    .success {
+      padding: 36px 24px;
+    }
+
+    .success h1 {
+      margin-bottom: 14px;
+    }
+
+    .success p {
+      margin-bottom: 22px;
+    }
+
+    .success .gif-wrap {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        padding: 24px 18px 140px;
+      }
+
+      .buttons {
+        height: 200px;
+      }
+
+      #yes {
+        left: 15%;
+      }
+
+      #no {
+        left: 55%;
+      }
+
+      p {
+        font-size: 16px;
+      }
+    }
+  </style>
 </head>
 <body>
-    
+  <div class="hearts" aria-hidden="true">
+    <span class="heart" style="left: 8%; animation-duration: 8s; animation-delay: 0s;">&hearts;</span>
+    <span class="heart" style="left: 18%; animation-duration: 6s; animation-delay: 2s;">&hearts;</span>
+    <span class="heart" style="left: 32%; animation-duration: 7s; animation-delay: 1s;">&hearts;</span>
+    <span class="heart" style="left: 45%; animation-duration: 9s; animation-delay: 3s;">&hearts;</span>
+    <span class="heart" style="left: 58%; animation-duration: 6.5s; animation-delay: 0.5s;">&hearts;</span>
+    <span class="heart" style="left: 72%; animation-duration: 8.5s; animation-delay: 1.5s;">&hearts;</span>
+    <span class="heart" style="left: 86%; animation-duration: 7.5s; animation-delay: 2.5s;">&hearts;</span>
+  </div>
+
+  <main class="card" id="card">
+    <div class="tag">Cute Invite</div>
+    <h1>Will you grab a coffee with me? &hearts;</h1>
+    <p>
+      I was thinking... good coffee, cozy vibes, and your company would make a pretty perfect combo.
+      So, what do you say?
+    </p>
+
+    <div class="gif-wrap">
+      <img
+        src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif"
+        alt="Cute animated coffee invite GIF"
+      >
+    </div>
+
+    <div class="buttons">
+      <button id="yes" class="btn" onclick="yesClicked()">Coffee? Yes</button>
+      <button id="no" class="btn" onmouseover="moveNo()" onclick="moveNo()">No :(</button>
+    </div>
+
+    <div class="hint">Tip: the red button is too shy for coffee.</div>
+  </main>
+
+  <script>
+    const noButton = document.getElementById("no");
+    const yesButton = document.getElementById("yes");
+    const card = document.getElementById("card");
+
+    function yesClicked() {
+      card.className = "card success";
+      card.innerHTML = `
+        <div class="tag">Coffee Plan</div>
+        <h1>Yay! It is a coffee date! &hearts;</h1>
+        <p>
+          Perfect. I am officially looking forward to coffee, cute conversation, and stealing a little extra time with you.
+        </p>
+        <div class="gif-wrap">
+          <img
+            src="https://media.giphy.com/media/3oz8xIsloV7zOmt81G/giphy.gif"
+            alt="Coffee celebration GIF"
+          >
+        </div>
+      `;
+      launchConfetti();
+    }
+
+    function moveNo() {
+      const maxX = window.innerWidth - noButton.offsetWidth - 20;
+      const maxY = window.innerHeight - noButton.offsetHeight - 20;
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+
+      noButton.style.left = `${x}px`;
+      noButton.style.top = `${y}px`;
+
+      const currentScale = parseFloat(yesButton.dataset.scale || "1");
+      const yesScale = Math.min(currentScale + 0.08, 1.5);
+      yesButton.dataset.scale = yesScale;
+      yesButton.style.transform = `scale(${yesScale})`;
+    }
+
+    function launchConfetti() {
+      for (let i = 0; i < 18; i += 1) {
+        const confetti = document.createElement("div");
+        confetti.textContent = ["*", "+", "o", "."][i % 4];
+        confetti.style.position = "fixed";
+        confetti.style.left = `${Math.random() * 100}vw`;
+        confetti.style.top = "-20px";
+        confetti.style.fontSize = `${18 + Math.random() * 18}px`;
+        confetti.style.zIndex = "4";
+        confetti.style.transition = "transform 3s linear, opacity 3s linear";
+        document.body.appendChild(confetti);
+
+        requestAnimationFrame(() => {
+          confetti.style.transform = `translateY(${window.innerHeight + 80}px) rotate(${Math.random() * 360}deg)`;
+          confetti.style.opacity = "0";
+        });
+
+        setTimeout(() => confetti.remove(), 3200);
+      }
+    }
+  </script>
 </body>
 </html>
